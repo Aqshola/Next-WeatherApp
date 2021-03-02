@@ -8,13 +8,14 @@ export default function dp(params) {
       {
         data: [0, 9, 7, 13, 8, 6, 0],
         pointRadius: 0,
+        borderWidth: 0,
       },
     ],
   };
 
   return (
     <div className="max-w-screen-xl mx-auto h-screen max-h-screen ">
-      <div className="flex w-full flex-col ">
+      <div className="flex w-full flex-col  ">
         <div className="w-full  flex space-x-5 p-5 items-center">
           <div className="flex space-x-10 flex-grow items-center">
             <h1>Weather App</h1>
@@ -48,13 +49,13 @@ export default function dp(params) {
             </svg>
           </button>
         </div>
-        <div className="flex p-10 w-full flex-col ">
-          <div className="w-full flex space-x-2 items-center">
-            <div className="w-1/5">
-              <h2 className="text-3xl ">
+        <div className="flex p-5 md:p-10 w-full flex-col ">
+          <div className="w-full flex flex-col md:flex-row space-x-2 items-center">
+            <div className="w-full flex items-center md:w-1/5 md:block">
+              <h2 className="text-3xl flex-grow md:flex-grow-0">
                 <span className="text-5xl">9°</span>Jakarta
               </h2>
-              <div className="flex mt-5">
+              <div className="flex mt-5 space-x-4 md:space-x-0">
                 <ul className="flex-grow">
                   <li>Precipitation</li>
                   <li>Humidity</li>
@@ -67,7 +68,7 @@ export default function dp(params) {
                 </ul>
               </div>
             </div>
-            <div className="w-4/5 h-72  p-10">
+            <div className=" w-full md:w-4/5 mt-3 h-80 md:mt-0 md:p-10">
               <Line
                 data={data}
                 options={{
@@ -77,7 +78,7 @@ export default function dp(params) {
                       {
                         offset: true,
                         gridLines: {
-                          display: false,
+                          // display: false,
                         },
                       },
                     ],
@@ -103,9 +104,6 @@ export default function dp(params) {
                   plugins: {
                     datalabels: {
                       anchor: "end",
-                      align: "right",
-                      textAlign: "end",
-
                       font: {
                         size: 20,
                       },
@@ -114,7 +112,7 @@ export default function dp(params) {
                           value = value.toString();
                           value = value.split(/(?=(?:...)*$)/);
                           value = value.join(",");
-                          return value;
+                          return value + "°c";
                         } else {
                           value = "";
                           return value;
@@ -127,29 +125,29 @@ export default function dp(params) {
             </div>
           </div>
         </div>
-        <div className="w-full flex  p-10 justify-between">
+        <div className="w-full p-5 flex md:pl-10 md:pr-10 justify-between">
           <div className="text-center">
-            <div className="block bg-blue-200 w-28 h-28"></div>
+            <div className="block bg-blue-200 w-14 h-14 md:w-28 md:h-28"></div>
             <h1>9°</h1>
             <h2>Tue</h2>
           </div>
           <div className="text-center">
-            <div className="block bg-blue-200 w-28 h-28"></div>
+            <div className="block bg-blue-200 w-14 h-14 md:w-28 md:h-28"></div>
             <h1>9°</h1>
             <h2>Tue</h2>
           </div>
           <div className="text-center">
-            <div className="block bg-blue-200 w-28 h-28"></div>
+            <div className="block bg-blue-200 w-14 h-14 md:w-28 md:h-28"></div>
             <h1>9°</h1>
             <h2>Tue</h2>
           </div>
           <div className="text-center">
-            <div className="block bg-blue-200 w-28 h-28"></div>
+            <div className="block bg-blue-200 w-14 h-14 md:w-28 md:h-28"></div>
             <h1>9°</h1>
             <h2>Tue</h2>
           </div>
           <div className="text-center">
-            <div className="block bg-blue-200 w-28 h-28"></div>
+            <div className="block bg-blue-200 w-14 h-14 md:w-28 md:h-28"></div>
             <h1>9°</h1>
             <h2>Tue</h2>
           </div>
