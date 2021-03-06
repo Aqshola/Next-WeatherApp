@@ -44,3 +44,57 @@ export const getForecastHours = (forecast) => {
       };
     });
 };
+
+export const getCurrentDataByCoord = async (latitude, longitude) => {
+  try {
+    return await axios.get(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=0e1d8596d00a9cb7562359634209c46d`
+    );
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getForecastDataByCoord = async (latitude, longitude) => {
+  try {
+    return await axios.get(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=0e1d8596d00a9cb7562359634209c46d`
+    );
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getLocation = async () => {
+  const nav = () => {
+    if (navigator.geolocation) {
+      return new Promise((res, rej) => {
+        navigator.geolocation.getCurrentPosition(res, rej);
+      });
+    } else {
+      return {
+        type: "error",
+        code: "400",
+        msg: "Device not support geolocation",
+      };
+    }
+  };
+
+  try {
+    const result = await nav();
+
+    return {
+      type: "success",
+      latitude: result.coords.latitude,
+      longitude: result.coords.longitude,
+    };
+  } catch (err) {
+    return {
+      type: "error",
+      code: err.code,
+      msg: err.message,
+    };
+  }
+
+  console.log(result);
+};

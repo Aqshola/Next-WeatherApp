@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export default function Nav() {
   const currentDate = Intl.DateTimeFormat("en-ID", {
     weekday: "short",
@@ -9,6 +11,7 @@ export default function Nav() {
   };
 
   const locateFail = (err) => {
+    alert(err.message);
     console.log(err);
   };
 
