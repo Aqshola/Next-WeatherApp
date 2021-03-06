@@ -1,41 +1,48 @@
 import { useState } from "react";
 
 export default function Nav() {
+  const [form, setform] = useState("");
+
+  const _handleChange = (e) => {
+    setform(e.target.value);
+  };
+
   const currentDate = Intl.DateTimeFormat("en-ID", {
     weekday: "short",
     hour: "numeric",
   }).format(new Date());
-
-  const locateSuccess = (pos) => {
-    return pos;
-  };
-
-  const locateFail = (err) => {
-    alert(err.message);
-    console.log(err);
-  };
-
-  const _getLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(locateSuccess, locateFail, {
-        enableHighAccuracy: true,
-      });
-    } else {
-      console.log("error");
-    }
-  };
   return (
     <div className="w-full flex space-x-5  items-center p-5 z-10">
-      <div className="flex space-x-10 flex-grow items-center">
-        <input
-          type="text"
-          placeholder="Search City"
-          className="p-2 focus:outline-none bg-gray-100 rounded-md w-56 "
-        />
+      <div className=" flex-grow  ">
+        <div className="flex p-2 bg-gray-100 w-max items-center rounded-md">
+          <input
+            type="text"
+            placeholder="Search City"
+            className="focus:outline-none bg-transparent  w-44 md:w-56 flex-grow"
+            onChange={_handleChange}
+          />
+
+          <button className="w-7 h-7 flex">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-full h-full"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
       <div className="flex items-center space-x-4">
         <h2>{currentDate}</h2>
-        <button className="focus:outline-none" onClick={_getLocation}>
+        <button className="focus:outline-none">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
