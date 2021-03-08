@@ -1,20 +1,21 @@
 import axios from "axios";
 import { parseDateToHour } from "./parser";
 
-export const getCurrentData = async () => {
+export const getCurrentData = async (city) => {
+  console.log(city);
   try {
     return await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=jakarta&units=metric&appid=0e1d8596d00a9cb7562359634209c46d`
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=0e1d8596d00a9cb7562359634209c46d`
     );
   } catch (err) {
     console.log(err);
   }
 };
 
-export const getForecastData = async () => {
+export const getForecastData = async (city) => {
   try {
     return await axios.get(
-      `https://api.openweathermap.org/data/2.5/forecast?q=jakarta&units=metric&appid=0e1d8596d00a9cb7562359634209c46d`
+      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=0e1d8596d00a9cb7562359634209c46d`
     );
   } catch (err) {
     console.log(err);
@@ -47,9 +48,11 @@ export const getForecastHours = (forecast) => {
 
 export const getCurrentDataByCoord = async (latitude, longitude) => {
   try {
-    return await axios.get(
+    const res = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=0e1d8596d00a9cb7562359634209c46d`
     );
+
+    return res;
   } catch (err) {
     console.log(err);
   }
@@ -95,6 +98,4 @@ export const getLocation = async () => {
       msg: err.message,
     };
   }
-
-  console.log(result);
 };

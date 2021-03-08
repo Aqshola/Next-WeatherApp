@@ -1,6 +1,14 @@
 import { useState } from "react";
+import {
+  getCurrentData,
+  getForecastData,
+  getForecastDay,
+  getForecastHours,
+} from "../utils/getWeather";
 
-export default function Nav() {
+import { getLocation } from "../utils/getLocation";
+
+export default function Nav({ updateGeo, handleLoading, updateWeather }) {
   const [form, setform] = useState("");
 
   const _handleChange = (e) => {
@@ -11,6 +19,30 @@ export default function Nav() {
     weekday: "short",
     hour: "numeric",
   }).format(new Date());
+
+  const _handleLocation = async () => {
+    handleLoading(true);
+    const ip = await getLocation();
+    const resCurrent = await getCurrentData(ip.city);
+    const resForecast = await getForecastData(ip.city);
+    const day = getForecastDay(resForecast);
+    const hours = getForecastHours(resForecast);
+
+    updateWeather(resCurrent.data, day, hours);
+
+    handleLoading(false);
+  };
+
+  const _searchCity = async () => {
+    handleLoading(true);
+    const resCurrent = await getCurrentData(form);
+    const resForecast = await getForecastData(form);
+    const day = getForecastDay(resForecast);
+    const hours = getForecastHours(resForecast);
+    updateWeather(resCurrent.data, day, hours);
+    handleLoading(false);
+  };
+
   return (
     <div className="w-full flex space-x-5  items-center p-5 z-10">
       <div className=" flex-grow  ">
@@ -22,7 +54,7 @@ export default function Nav() {
             onChange={_handleChange}
           />
 
-          <button className="w-7 h-7 flex">
+          <button className="w-7 h-7 flex" onClick={_searchCity}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -42,7 +74,7 @@ export default function Nav() {
       </div>
       <div className="flex items-center space-x-4">
         <h2>{currentDate}</h2>
-        <button className="focus:outline-none">
+        <button className="focus:outline-none" onClick={_handleLocation}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

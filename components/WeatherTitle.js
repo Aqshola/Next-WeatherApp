@@ -12,7 +12,7 @@ export default function WeatherTitle({ current }) {
           <h2 className="text-2xl font-medium">
             {current.weather[0].description}
           </h2>
-          <h1 className="text-lg flex-grow">Jakarta</h1>
+          <h1 className="text-lg flex-grow">{current.name}</h1>
         </div>
         <WeatherIcon
           src={parseToIcon(current.weather[0].icon)}
