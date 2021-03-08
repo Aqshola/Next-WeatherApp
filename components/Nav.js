@@ -35,8 +35,8 @@ export default function Nav({ updateGeo, handleLoading, updateWeather }) {
 
   const _searchCity = async () => {
     handleLoading(true);
-    const resCurrent = await getCurrentData(form);
-    const resForecast = await getForecastData(form);
+    const resCurrent = (await getCurrentData(form)) || undefined;
+    const resForecast = (await getForecastData(form)) || undefined;
     const day = getForecastDay(resForecast);
     const hours = getForecastHours(resForecast);
     updateWeather(resCurrent.data, day, hours);

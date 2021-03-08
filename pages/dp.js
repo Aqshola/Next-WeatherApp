@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ForecastDayCard from "../components/ForecastDayCard";
+import LoadComponent from "../components/LoadComponent";
 import Nav from "../components/Nav";
 import Ornament from "../components/Ornament";
 import WeatherChart from "../components/WeatherChart";
@@ -40,6 +41,7 @@ export default function dp({ currentWeather, forecastDay, forecastHours }) {
 
   return (
     <div className="max-w-screen-lg mx-auto h-screen max-h-screen relative">
+      <LoadComponent loading={loading} />
       <Ornament />
       <div className="flex w-full flex-col relative">
         <Nav
@@ -47,10 +49,9 @@ export default function dp({ currentWeather, forecastDay, forecastHours }) {
           handleLoading={setloading}
           updateWeather={_updateWeather}
         />
-        {loading ? (
-          <div className="self-center h-72 w-max flex items-end">
-            <h1 className="text-4xl font-medium">looking for weather...</h1>
-          </div>
+
+        {!currentData || !forecastData ? (
+          <h1>notfound</h1>
         ) : (
           <>
             <div className=" p-5 w-full flex flex-col md:flex-row md:space-x-2 items-center">

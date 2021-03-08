@@ -19,6 +19,11 @@ export default function WeatherChart({ forecast }) {
       <Line
         data={data}
         options={{
+          elements: {
+            line: {
+              tension: 0,
+            },
+          },
           layout: {
             padding: {
               top: 130,
