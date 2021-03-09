@@ -5,7 +5,7 @@ export const getLocation = async () => {
 
     const res = (
       await axios.get(
-        `http://api.ipstack.com/${ip.ip}?access_key=3019e870caa0a0210b82e799f182e338`
+        `https://api.ipstack.com/${ip.ip}?access_key=3019e870caa0a0210b82e799f182e338`
       )
     ).data;
 
