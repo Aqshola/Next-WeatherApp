@@ -12,6 +12,7 @@ export const getLocation = async () => {
       latitude: res.data.latitude,
       longitude: res.data.longitude,
       city: res.data.city,
+      ip: ip.data.ip,
     };
   } catch (err) {
     return {

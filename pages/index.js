@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ForecastDayCard from "../components/ForecastDayCard";
 import LoadComponent from "../components/LoadComponent";
 import Nav from "../components/Nav";
@@ -13,7 +13,15 @@ import {
   getForecastDay,
   getForecastHours,
 } from "../utils/getWeather";
-export default function Home({ currentWeather, forecastDay, forecastHours }) {
+import Head from "next/head";
+
+export default function Home({
+  currentWeather,
+  forecastDay,
+  forecastHours,
+  ip,
+}) {
+  console.log(ip);
   const [forecastData, setforecastData] = useState({
     forecastDay,
     forecastHours,
@@ -40,48 +48,57 @@ export default function Home({ currentWeather, forecastDay, forecastHours }) {
   };
 
   return (
-    <div className="max-w-screen-lg mx-auto h-screen max-h-screen relative">
-      <LoadComponent
-        loading={loading}
-        condition={currentData.weather ? currentData.weather.main : "Mist"}
-      />
-
-      {currentData.type === "success" && (
-        <Ornament condition={currentData.weather.main} />
-      )}
-      <div className="flex w-full flex-col relative">
-        <Nav
-          updateGeo={_updateLocation}
-          handleLoading={setloading}
-          updateWeather={_updateWeather}
+    <>
+      <Head>
+        <title>WeatherApp</title>
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        ></meta>
+      </Head>
+      <div className="max-w-screen-lg mx-auto h-screen max-h-screen relative">
+        <LoadComponent
+          loading={loading}
+          condition={currentData.weather ? currentData.weather.main : "Mist"}
         />
 
-        {currentData.type === "fail" ? (
-          <div className="w-full h-96 flex justify-center items-center">
-            <h2 className="text-3xl font-medium text-center">
-              {currentData.message} ☹
-            </h2>
-          </div>
-        ) : (
-          <>
-            <div className=" p-5 w-full flex flex-col md:flex-row md:space-x-2 items-center">
-              <WeatherTitle current={currentData} />
-              <WeatherIcon
-                src={getIcon(currentData.weather.icon)}
-                size="md"
-                className="md:flex hidden"
-              />
-              <WeatherChart
-                forecast={forecastData.forecastHours}
-                condition={currentData.weather.main}
-              />
-            </div>
-
-            <ForecastDayCard forecast={forecastData.forecastDay} />
-          </>
+        {currentData.type === "success" && (
+          <Ornament condition={currentData.weather.main} />
         )}
+        <div className="flex w-full flex-col relative">
+          <Nav
+            updateGeo={_updateLocation}
+            handleLoading={setloading}
+            updateWeather={_updateWeather}
+          />
+
+          {currentData.type === "fail" ? (
+            <div className="w-full h-96 flex justify-center items-center">
+              <h2 className="text-3xl font-medium text-center">
+                {currentData.message} ☹
+              </h2>
+            </div>
+          ) : (
+            <>
+              <div className=" p-5 w-full flex flex-col md:flex-row md:space-x-2 items-center">
+                <WeatherTitle current={currentData} />
+                <WeatherIcon
+                  src={getIcon(currentData.weather.icon)}
+                  size="md"
+                  className="md:flex hidden"
+                />
+                <WeatherChart
+                  forecast={forecastData.forecastHours}
+                  condition={currentData.weather.main}
+                />
+              </div>
+
+              <ForecastDayCard forecast={forecastData.forecastDay} />
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -98,5 +115,6 @@ Home.getInitialProps = async () => {
     currentWeather: currentWeather,
     forecastDay,
     forecastHours,
+    ip: locationCoords.ip,
   };
 };
