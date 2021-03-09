@@ -22,14 +22,14 @@ export default function WeatherTitle({ current }) {
         <div className="hidden md:flex  flex-col justify-center w-48 mt-2  space-x-4 md:space-x-0">
           <div className="flex items-center ">
             <div className="w-10 h-10 ">
-              <img src="/assets/iconAsset/humidity.svg" alt="" srcset="" />
+              <img src="/assets/iconAsset/humidity.svg" />
             </div>
             <p className="text-sm font-medium flex-grow">Humidity</p>
             <p className="text-base font-semibold">{current.info.humidity}%</p>
           </div>
           <div className="flex items-center ">
             <div className="w-10 h-10">
-              <img src="/assets/iconAsset/wind.svg" alt="" srcset="" />
+              <img src="/assets/iconAsset/wind.svg" />
             </div>
             <p className="text-sm font-medium flex-grow">Wind</p>
             <p className="text-base font-semibold">
@@ -41,14 +41,14 @@ export default function WeatherTitle({ current }) {
       <div className="flex self-start flex-col justify-center w-36 mt-2  md:hidden">
         <div className="flex items-center space-x-2">
           <div className="w-7 h-7 ">
-            <img src="/assets/iconAsset/humidity.svg" alt="" srcset="" />
+            <img src="/assets/iconAsset/humidity.svg" />
           </div>
           <p className="text-sm font-medium flex-grow">Humidity</p>
           <p className="text-sm font-semibold">{current.info.humidity}%</p>
         </div>
         <div className="flex items-center space-x-2">
           <div className="w-7 h-7 ">
-            <img src="/assets/iconAsset/wind.svg" alt="" srcset="" />
+            <img src="/assets/iconAsset/wind.svg" />
           </div>
           <p className="text-sm font-medium flex-grow">Wind</p>
           <p className="text-sm font-semibold">
