@@ -8,7 +8,7 @@ import {
 
 import { getLocation } from "../utils/getLocation";
 
-export default function Nav({ updateGeo, handleLoading, updateWeather }) {
+export default function Nav({ handleLoading, updateWeather }) {
   const [form, setform] = useState("");
 
   const _handleChange = (e) => {
@@ -25,21 +25,21 @@ export default function Nav({ updateGeo, handleLoading, updateWeather }) {
     const ip = await getLocation();
     const resCurrent = await getCurrentData(ip.city);
     const resForecast = await getForecastData(ip.city);
-    const day = getForecastDay(resForecast);
-    const hours = getForecastHours(resForecast);
+    const day = getForecastDay(resForecast.listData);
+    const hours = getForecastHours(resForecast.listData);
 
-    updateWeather(resCurrent.data, day, hours);
+    updateWeather(resCurrent, day, hours);
 
     handleLoading(false);
   };
 
   const _searchCity = async () => {
     handleLoading(true);
-    const resCurrent = (await getCurrentData(form)) || undefined;
-    const resForecast = (await getForecastData(form)) || undefined;
-    const day = getForecastDay(resForecast);
-    const hours = getForecastHours(resForecast);
-    updateWeather(resCurrent.data, day, hours);
+    const resCurrent = await getCurrentData(form);
+    const resForecast = await getForecastData(form);
+    const day = getForecastDay(resForecast.listData);
+    const hours = getForecastHours(resForecast.listData);
+    updateWeather(resCurrent, day, hours);
     handleLoading(false);
   };
 

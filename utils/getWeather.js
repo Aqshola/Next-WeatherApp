@@ -3,50 +3,90 @@ import { parseDateToHour } from "./parser";
 
 export const getCurrentData = async (city) => {
   try {
-    return await axios.get(
+    const { data } = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=0e1d8596d00a9cb7562359634209c46d`
     );
+
+    return {
+      type: "success",
+      city: data.name,
+      weather: {
+        main: data.weather[0].main,
+        desc: data.weather[0].description,
+        icon: data.weather[0].icon,
+      },
+      info: {
+        temp: data.main.temp,
+        humidity: data.main.humidity,
+        wind: data.wind.speed,
+      },
+    };
   } catch (err) {
-    console.log(err);
+    return {
+      type: "fail",
+      ...err.response.data,
+    };
   }
 };
 
 export const getForecastData = async (city) => {
   try {
-    return await axios.get(
+    const { data } = await axios.get(
       `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=0e1d8596d00a9cb7562359634209c46d`
     );
+
+    const dataParse = data.list.map((el) => {
+      return {
+        weather: {
+          main: el.weather[0].main,
+          desc: el.weather[0].description,
+          icon: el.weather[0].icon,
+        },
+        info: {
+          temp: el.main.temp,
+          humidity: el.main.humidity,
+          wind: el.wind.speed,
+        },
+        date: el.dt_txt,
+      };
+    });
+
+    return {
+      type: "success",
+      listData: dataParse,
+      city: data.city.name,
+    };
   } catch (err) {
-    console.log(err);
+    return {
+      type: "fail",
+      listData: [],
+
+      ...err.response.data,
+    };
   }
 };
 
 export const getForecastDay = (forecast) => {
-  if (forecast !== undefined) {
-    return forecast.data.list.filter((el, i) => {
-      if (i % 8 === 0 && i > 0) {
-        return el;
-      }
-    });
-  }
+  return forecast.filter((el, i) => {
+    if (i % 8 === 0 && i > 0) {
+      return el;
+    }
+  });
 };
 
 export const getForecastHours = (forecast) => {
-  if (forecast !== undefined) {
-    return forecast.data.list
-      .filter((el, i) => {
-        if (i < 4) {
-          return el;
-        }
-      })
-      .map((el) => {
-        return {
-          time: parseDateToHour(el.dt_txt),
-          weather: el.weather[0].main,
-          temp: Math.round(el.main.temp, 0),
-        };
-      });
-  }
+  return forecast
+    .filter((el, i) => {
+      if (i < 4) {
+        return el;
+      }
+    })
+    .map((el) => {
+      return {
+        hours: parseDateToHour(el.date),
+        ...el,
+      };
+    });
 };
 
 export const getCurrentDataByCoord = async (latitude, longitude) => {

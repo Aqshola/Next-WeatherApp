@@ -7,29 +7,25 @@ export default function WeatherTitle({ current }) {
       <div className="flex w-100 items-center flex-grow md:flex-grow-0">
         <div className="flex flex-col  flex-grow">
           <h3 className="text-6xl font-bold">
-            {Math.round(current.main.temp, 0)}°
+            {Math.round(current.info.temp, 0)}°
           </h3>
-          <h2 className="text-2xl font-medium">
-            {current.weather[0].description}
-          </h2>
-          <h1 className="text-lg flex-grow">{current.name}</h1>
+          <h2 className="text-2xl font-medium">{current.weather.desc}</h2>
+          <h1 className="text-lg flex-grow">{current.city}</h1>
         </div>
         <WeatherIcon
-          src={parseToIcon(current.weather[0].icon)}
+          src={parseToIcon(current.weather.icon)}
           size="sm"
           className="flex w-36 h-36  md:hidden"
         ></WeatherIcon>
       </div>
       <div className="hidden md:flex w-56 mt-2  space-x-4 md:space-x-0">
         <ul className="flex-grow">
-          <li>Precipitation</li>
           <li>Humidity</li>
           <li>Wind</li>
         </ul>
         <ul>
-          <li>80%</li>
-          <li>{current.main.humidity}%</li>
-          <li>{current.wind.speed} km/h</li>
+          <li>{current.info.humidity}%</li>
+          <li>{current.info.wind} km/h</li>
         </ul>
       </div>
     </div>

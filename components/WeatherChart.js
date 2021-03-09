@@ -3,11 +3,11 @@ import datalabels from "chartjs-plugin-datalabels";
 
 export default function WeatherChart({ forecast }) {
   const data = {
-    labels: forecast.map((el) => el.time),
-    dataLabels: forecast.map((el) => el.weather),
+    labels: forecast.map((el) => el.hours),
+    dataLabels: forecast.map((el) => el.weather.main),
     datasets: [
       {
-        data: forecast.map((el) => el.temp),
+        data: forecast.map((el) => Math.round(el.info.temp, 0)),
         borderColor: "orange",
         backgroundColor: "transparent",
         pointRadius: 0,

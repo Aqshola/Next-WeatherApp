@@ -50,14 +50,18 @@ export default function dp({ currentWeather, forecastDay, forecastHours }) {
           updateWeather={_updateWeather}
         />
 
-        {!currentData || !forecastData ? (
-          <h1>notfound</h1>
+        {currentData.type === "fail" ? (
+          <div className="w-full h-96 flex justify-center items-center">
+            <h2 className="text-3xl font-medium text-center">
+              {currentData.message} ☹
+            </h2>
+          </div>
         ) : (
           <>
             <div className=" p-5 w-full flex flex-col md:flex-row md:space-x-2 items-center">
               <WeatherTitle current={currentData} />
               <WeatherIcon
-                src={getIcon(currentData.weather[0].icon)}
+                src={getIcon(currentData.weather.icon)}
                 size="md"
                 className="md:flex hidden"
               />
@@ -78,11 +82,11 @@ dp.getInitialProps = async () => {
   const currentWeather = await getCurrentData(locationCoords.city);
   const forecastCoords = await getForecastData(locationCoords.city);
 
-  const forecastDay = getForecastDay(forecastCoords);
-  const forecastHours = getForecastHours(forecastCoords);
+  const forecastDay = getForecastDay(forecastCoords.listData);
+  const forecastHours = getForecastHours(forecastCoords.listData);
 
   return {
-    currentWeather: currentWeather.data,
+    currentWeather: currentWeather,
     forecastDay,
     forecastHours,
   };
