@@ -54,7 +54,10 @@ export default function Nav({ handleLoading, updateWeather }) {
             onChange={_handleChange}
           />
 
-          <button className="w-7 h-7 flex" onClick={_searchCity}>
+          <button
+            className="w-7 h-7 flex focus:outline-none"
+            onClick={_searchCity}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

@@ -1,14 +1,40 @@
 import { Line } from "react-chartjs-2";
 import datalabels from "chartjs-plugin-datalabels";
 
-export default function WeatherChart({ forecast }) {
+export default function WeatherChart({ forecast, condition }) {
+  const switchBorderColor = () => {
+    if (condition === "Rain") {
+      return "#60A5FA";
+    } else if (condition === "Snow") {
+      return "#BFDBFE";
+    } else if (
+      condition === "Mist" ||
+      "Fog" ||
+      "Haze" ||
+      "Sand" ||
+      "Dust" ||
+      "Ash" ||
+      "Squall" ||
+      "Tornado" ||
+      "Drizzle" ||
+      "Thunderstorm"
+    ) {
+      return "#9CA3AF";
+    } else if (condition === "Clear") {
+      return "#FBBF24";
+    } else {
+      return "#9CA3AF";
+    }
+  };
+
   const data = {
     labels: forecast.map((el) => el.hours),
     dataLabels: forecast.map((el) => el.weather.main),
     datasets: [
       {
         data: forecast.map((el) => Math.round(el.info.temp, 0)),
-        borderColor: "orange",
+        borderColor: switchBorderColor(condition),
+        borderWidth: 5,
         backgroundColor: "transparent",
         pointRadius: 0,
       },
@@ -19,11 +45,6 @@ export default function WeatherChart({ forecast }) {
       <Line
         data={data}
         options={{
-          elements: {
-            line: {
-              tension: 0,
-            },
-          },
           layout: {
             padding: {
               top: 130,
