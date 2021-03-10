@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ForecastDayCard from "../components/ForecastDayCard";
 import LoadComponent from "../components/LoadComponent";
 import Nav from "../components/Nav";
@@ -15,24 +15,12 @@ import {
 } from "../utils/getWeather";
 import Head from "next/head";
 
-export default function Home({
-  currentWeather,
-  forecastDay,
-  forecastHours,
-  ip,
-}) {
-  console.log(ip);
-  const [forecastData, setforecastData] = useState({
-    forecastDay,
-    forecastHours,
-  });
-  const [currentData, setcurrentData] = useState(currentWeather);
+export default function Home() {
+  const [forecastData, setforecastData] = useState({});
+  const [currentData, setcurrentData] = useState({});
 
-  const [loading, setloading] = useState(false);
-
-  const _updateLocation = (locate) => {
-    setlocation(locate);
-  };
+  const [loading, setloading] = useState(true);
+  const [firstLoad, setfirstLoad] = useState(false);
 
   const _updateWeather = async (current, day, hour) => {
     setcurrentData(current);
@@ -47,14 +35,33 @@ export default function Home({
     return `/assets/WeatherIcon/${icon}.svg`;
   };
 
+  const _getWeather = async () => {
+    const locationCoords = await getLocation();
+
+    const currentWeather = await getCurrentData(locationCoords.city);
+    const forecastCoords = await getForecastData(locationCoords.city);
+
+    const forecastDay = getForecastDay(forecastCoords.listData);
+    const forecastHours = getForecastHours(forecastCoords.listData);
+
+    setcurrentData(currentWeather);
+    setforecastData({
+      forecastDay,
+      forecastHours,
+    });
+
+    setfirstLoad(true);
+    setloading(false);
+  };
+
+  useEffect(() => {
+    _getWeather();
+  }, []);
+
   return (
     <>
       <Head>
         <title>WeatherApp</title>
-        <meta
-          http-equiv="Content-Security-Policy"
-          content="upgrade-insecure-requests"
-        ></meta>
       </Head>
       <div className="max-w-screen-lg mx-auto h-screen max-h-screen relative">
         <LoadComponent
@@ -66,11 +73,7 @@ export default function Home({
           <Ornament condition={currentData.weather.main} />
         )}
         <div className="flex w-full flex-col relative">
-          <Nav
-            updateGeo={_updateLocation}
-            handleLoading={setloading}
-            updateWeather={_updateWeather}
-          />
+          <Nav handleLoading={setloading} updateWeather={_updateWeather} />
 
           {currentData.type === "fail" ? (
             <div className="w-full h-96 flex justify-center items-center">
@@ -79,42 +82,27 @@ export default function Home({
               </h2>
             </div>
           ) : (
-            <>
-              <div className=" p-5 w-full flex flex-col md:flex-row md:space-x-2 items-center">
-                <WeatherTitle current={currentData} />
-                <WeatherIcon
-                  src={getIcon(currentData.weather.icon)}
-                  size="md"
-                  className="md:flex hidden"
-                />
-                <WeatherChart
-                  forecast={forecastData.forecastHours}
-                  condition={currentData.weather.main}
-                />
-              </div>
+            (!loading || firstLoad) && (
+              <>
+                <div className=" p-5 w-full flex flex-col md:flex-row md:space-x-2 items-center">
+                  <WeatherTitle current={currentData} />
+                  <WeatherIcon
+                    src={getIcon(currentData.weather.icon)}
+                    size="md"
+                    className="md:flex hidden"
+                  />
+                  <WeatherChart
+                    forecast={forecastData.forecastHours}
+                    condition={currentData.weather.main}
+                  />
+                </div>
 
-              <ForecastDayCard forecast={forecastData.forecastDay} />
-            </>
+                <ForecastDayCard forecast={forecastData.forecastDay} />
+              </>
+            )
           )}
         </div>
       </div>
     </>
   );
 }
-
-Home.getInitialProps = async () => {
-  const locationCoords = await getLocation();
-
-  const currentWeather = await getCurrentData(locationCoords.city);
-  const forecastCoords = await getForecastData(locationCoords.city);
-
-  const forecastDay = getForecastDay(forecastCoords.listData);
-  const forecastHours = getForecastHours(forecastCoords.listData);
-
-  return {
-    currentWeather: currentWeather,
-    forecastDay,
-    forecastHours,
-    ip: locationCoords.ip,
-  };
-};

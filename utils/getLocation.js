@@ -4,17 +4,18 @@ export const getLocation = async () => {
     const ip = await axios.get("https://api.ipify.org/?format=json");
 
     const res = await axios.get(
-      `http://api.ipstack.com/${ip.data.ip}?access_key=3019e870caa0a0210b82e799f182e338`
+      `http://www.geoplugin.net/json.gp?ip=${ip.data.ip}`
     );
 
     return {
       type: "success",
-      latitude: res.data.latitude,
-      longitude: res.data.longitude,
-      city: res.data.city,
+      latitude: res.data.geoplugin_latitude,
+      longitude: res.data.geoplugin_longitude,
+      city: res.data.geoplugin_city,
       ip: ip.data.ip,
     };
   } catch (err) {
+    console.log(err);
     return {
       type: "error",
       code: 404,
