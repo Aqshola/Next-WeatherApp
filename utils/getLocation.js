@@ -5,6 +5,8 @@ export const getLocation = async () => {
     const ip = await axios.get("https://api.ipify.org/?format=json");
 
     const res = await axios.get(`/api/ip?address=${ip.data.ip}`);
+    alert("IP" + ip.data.ip);
+    alert("Kota" + res.data.geoplugin_city);
 
     return {
       type: "success",

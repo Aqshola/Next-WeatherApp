@@ -7,6 +7,8 @@ export const getCurrentData = async (city) => {
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=0e1d8596d00a9cb7562359634209c46d`
     );
 
+    alert("Cuaca" + data.weather[0].main);
+
     return {
       type: "success",
       city: data.name,
