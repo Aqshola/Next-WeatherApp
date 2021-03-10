@@ -7,6 +7,8 @@ export default function WeatherChart({ forecast, condition }) {
       return "#60A5FA";
     } else if (condition === "Snow") {
       return "#BFDBFE";
+    } else if (condition === "Clear") {
+      return "#FBBF24";
     } else if (
       condition === "Mist" ||
       "Fog" ||
@@ -41,10 +43,15 @@ export default function WeatherChart({ forecast, condition }) {
     ],
   };
   return (
-    <div className=" w-full  md:w-3/5 h-72 md:h-80 md:p-10">
+    <div className=" w-full h-64">
       <Line
         data={data}
         options={{
+          elements: {
+            line: {
+              tension: 0.2,
+            },
+          },
           layout: {
             padding: {
               top: 130,

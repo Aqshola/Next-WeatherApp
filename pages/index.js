@@ -4,9 +4,9 @@ import LoadComponent from "../components/LoadComponent";
 import Nav from "../components/Nav";
 import Ornament from "../components/Ornament";
 import WeatherChart from "../components/WeatherChart";
-import WeatherIcon from "../components/WeatherIcon";
+
 import WeatherTitle from "../components/WeatherTitle";
-import { getIp, getLocation } from "../utils/getLocation";
+import { getLocation } from "../utils/getLocation";
 
 import {
   getCurrentData,
@@ -15,7 +15,6 @@ import {
   getForecastHours,
 } from "../utils/getWeather";
 import Head from "next/head";
-import axios from "axios";
 
 export default function Home() {
   const [forecastData, setforecastData] = useState({});
@@ -61,7 +60,7 @@ export default function Home() {
       <Head>
         <title>WeatherApp</title>
       </Head>
-      <div className="max-w-screen-lg mx-auto h-screen max-h-screen relative">
+      <div className="max-w-screen-sm mx-auto p-0.5 min-h-screen relative shadow-lg">
         <LoadComponent
           loading={loading}
           condition={currentData.weather ? currentData.weather.main : "Mist"}
@@ -82,13 +81,9 @@ export default function Home() {
           ) : (
             (!loading || firstLoad) && (
               <>
-                <div className=" p-5 w-full flex flex-col md:flex-row md:space-x-2 items-center">
+                <div className=" p-5 w-full flex flex-col ">
                   <WeatherTitle current={currentData} />
-                  <WeatherIcon
-                    src={getIcon(currentData.weather.icon)}
-                    size="md"
-                    className="md:flex hidden"
-                  />
+
                   <WeatherChart
                     forecast={forecastData.forecastHours}
                     condition={currentData.weather.main}

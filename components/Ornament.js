@@ -26,7 +26,7 @@ export default function Ornament({ condition }) {
     }
   );
   return (
-    <div className="h-56 w-56 block md:hidden z-0  overflow-hidden absolute top-0 right-0">
+    <div className="h-56 w-56 block  z-0  overflow-hidden absolute top-0 right-0">
       <div
         className={
           bgColor +

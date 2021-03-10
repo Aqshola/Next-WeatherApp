@@ -31,6 +31,7 @@ export default function Nav({ handleLoading, updateWeather }) {
     updateWeather(resCurrent, day, hours);
 
     handleLoading(false);
+    setform("");
   };
 
   const _searchCity = async () => {
@@ -41,17 +42,19 @@ export default function Nav({ handleLoading, updateWeather }) {
     const hours = getForecastHours(resForecast.listData);
     updateWeather(resCurrent, day, hours);
     handleLoading(false);
+    setform("");
   };
 
   return (
     <div className="w-full flex space-x-5  items-center p-5 z-10">
       <div className=" flex-grow  ">
-        <div className="flex p-2 bg-gray-100 w-max items-center rounded-md">
+        <div className="flex p-2 w-max bg-gray-100  items-center rounded-md">
           <input
             type="text"
             placeholder="Search City"
-            className="focus:outline-none bg-transparent  w-44 md:w-56 flex-grow"
+            className="focus:outline-none bg-transparent w-36 flex-grow"
             onChange={_handleChange}
+            value={form}
           />
 
           <button
@@ -76,7 +79,7 @@ export default function Nav({ handleLoading, updateWeather }) {
         </div>
       </div>
       <div className="flex items-center space-x-4">
-        <h2>{currentDate}</h2>
+        <h2 className="font-semibold">{currentDate}</h2>
         <button className="focus:outline-none" onClick={_handleLocation}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
