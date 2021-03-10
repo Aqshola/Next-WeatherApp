@@ -1,15 +1,13 @@
 export const parseDateToHour = (date) => {
-  const parsing = new Date(date);
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
-  }).format(parsing);
+  }).format(date);
 };
 
 export const parseDateToDay = (date) => {
-  const parsing = new Date(date);
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
-  }).format(parsing);
+  }).format(date);
 };
 
 export const parseToIcon = (name) => {
