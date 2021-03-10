@@ -6,7 +6,8 @@ import Ornament from "../components/Ornament";
 import WeatherChart from "../components/WeatherChart";
 import WeatherIcon from "../components/WeatherIcon";
 import WeatherTitle from "../components/WeatherTitle";
-import { getLocation } from "../utils/getLocation";
+import { getIp, getLocation } from "../utils/getLocation";
+
 import {
   getCurrentData,
   getForecastData,
@@ -14,11 +15,11 @@ import {
   getForecastHours,
 } from "../utils/getWeather";
 import Head from "next/head";
+import axios from "axios";
 
 export default function Home() {
   const [forecastData, setforecastData] = useState({});
   const [currentData, setcurrentData] = useState({});
-
   const [loading, setloading] = useState(true);
   const [firstLoad, setfirstLoad] = useState(false);
 
@@ -40,16 +41,13 @@ export default function Home() {
 
     const currentWeather = await getCurrentData(locationCoords.city);
     const forecastCoords = await getForecastData(locationCoords.city);
-
     const forecastDay = getForecastDay(forecastCoords.listData);
     const forecastHours = getForecastHours(forecastCoords.listData);
-
     setcurrentData(currentWeather);
     setforecastData({
       forecastDay,
       forecastHours,
     });
-
     setfirstLoad(true);
     setloading(false);
   };

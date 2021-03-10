@@ -1,11 +1,10 @@
 import axios from "axios";
+
 export const getLocation = async () => {
   try {
     const ip = await axios.get("https://api.ipify.org/?format=json");
 
-    const res = await axios.get(
-      `http://www.geoplugin.net/json.gp?ip=${ip.data.ip}`
-    );
+    const res = await axios.get(`/api/ip?address=${ip.data.ip}`);
 
     return {
       type: "success",
