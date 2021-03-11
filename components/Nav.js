@@ -55,6 +55,11 @@ export default function Nav({ handleLoading, updateWeather }) {
             className="focus:outline-none bg-transparent w-36 flex-grow"
             onChange={_handleChange}
             value={form}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                _searchCity();
+              }
+            }}
           />
 
           <button
