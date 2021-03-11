@@ -48,6 +48,7 @@ export const getForecastData = async (city) => {
           wind: el.wind.speed,
         },
         date: el.dt,
+        date_txt: el.dt_txt,
       };
     });
 

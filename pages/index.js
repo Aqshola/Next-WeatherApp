@@ -31,10 +31,6 @@ export default function Home() {
     });
   };
 
-  const getIcon = (icon) => {
-    return `/assets/WeatherIcon/${icon}.svg`;
-  };
-
   const _getWeather = async () => {
     const locationCoords = await getLocation();
 
@@ -42,6 +38,7 @@ export default function Home() {
     const forecastCoords = await getForecastData(locationCoords.city);
     const forecastDay = getForecastDay(forecastCoords.listData);
     const forecastHours = getForecastHours(forecastCoords.listData);
+
     setcurrentData(currentWeather);
     setforecastData({
       forecastDay,
